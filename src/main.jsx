@@ -235,32 +235,32 @@ function App() {
   const displayedTime = countdownMode ? timeLeft : elapsedTime;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#080b16] text-slate-100">
+    <main className="min-h-[100dvh] overflow-hidden bg-[#080b16] text-slate-100">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(111,71,255,.18),transparent_26%),radial-gradient(circle_at_18%_80%,rgba(35,198,181,.10),transparent_23%)]" />
-      <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col px-5 py-7 sm:px-8">
-        <header className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="grid size-10 place-items-center rounded-xl bg-violet-500 shadow-lg shadow-violet-950/40">
+      <div className="relative mx-auto flex min-h-[100dvh] max-w-5xl flex-col px-4 py-4 sm:px-8 sm:py-7">
+        <header className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+            <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-violet-500 shadow-lg shadow-violet-950/40 sm:size-10">
               <KeyRound size={20} />
             </div>
-            <span className="text-lg font-bold tracking-tight">
+            <span className="truncate text-base font-bold tracking-tight sm:text-lg">
               Pass<span className="text-violet-400">Quest</span>
             </span>
           </div>
           <div
-            className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-bold tabular-nums ${countdownMode && timeLeft <= 10 ? "border-rose-400/30 bg-rose-400/10 text-rose-300" : "border-white/10 bg-white/5 text-slate-300"}`}
+            className={`flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold tabular-nums sm:gap-2 sm:px-3 ${countdownMode && timeLeft <= 10 ? "border-rose-400/30 bg-rose-400/10 text-rose-300" : "border-white/10 bg-white/5 text-slate-300"}`}
           >
             <Timer size={14} /> {formatTime(displayedTime)}
           </div>
         </header>
 
-        <section className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center py-12">
-          <div className="mb-8 text-center">
+        <section className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center py-8 sm:py-12">
+          <div className="mb-6 text-center sm:mb-8">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-violet-300">
               <Sparkles size={14} /> Nível {Math.min(stage + 1, rules.length)}{" "}
               de {rules.length}
             </div>
-            <h1 className="text-4xl font-black tracking-tight sm:text-5xl">
+            <h1 className="text-3xl font-black tracking-tight sm:text-5xl">
               Qual é a senha?
             </h1>
             <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
@@ -268,7 +268,7 @@ function App() {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-[#121625]/80 p-5 shadow-2xl shadow-black/30 backdrop-blur sm:p-8">
+          <div className="rounded-2xl border border-white/10 bg-[#121625]/80 p-4 shadow-2xl shadow-black/30 backdrop-blur sm:rounded-3xl sm:p-8">
             <div className="mb-7">
               <div className="mb-3 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                 <span>Seu progresso</span>
@@ -285,7 +285,7 @@ function App() {
             </div>
 
             {result ? (
-              <div className="py-4 text-center">
+              <div className="py-2 text-center sm:py-4">
                 <div
                   className={`mx-auto mb-5 grid size-20 place-items-center rounded-full ring-8 ${result.isWinner ? "bg-emerald-400/15 text-emerald-300 ring-emerald-400/5" : "bg-rose-400/15 text-rose-300 ring-rose-400/5"}`}
                 >
@@ -303,8 +303,8 @@ function App() {
                     ? "Sua senha passou por todas as camadas de segurança."
                     : "Você não concluiu a senha antes do fim da contagem."}
                 </p>
-                <div className="mx-auto mt-6 grid max-w-sm grid-cols-2 gap-3 text-left">
-                  <div className="rounded-2xl bg-white/5 p-4">
+                <div className="mx-auto mt-6 grid max-w-sm grid-cols-2 gap-2 text-left sm:gap-3">
+                  <div className="rounded-2xl bg-white/5 p-3 sm:p-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Tempo usado
                     </p>
@@ -312,7 +312,7 @@ function App() {
                       {formatTime(result.timeUsed)}
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-violet-500/15 p-4">
+                  <div className="rounded-2xl bg-violet-500/15 p-3 sm:p-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-violet-300">
                       Pontuação
                     </p>
@@ -380,7 +380,7 @@ function App() {
                     />
                     <button
                       type="submit"
-                      className="rounded-xl bg-violet-500 px-6 py-3.5 text-sm font-bold text-white active:scale-[.98]"
+                    className="w-full rounded-xl bg-violet-500 px-6 py-3.5 text-sm font-bold text-white active:scale-[.98] sm:w-auto"
                     >
                       Enviar
                     </button>
@@ -388,7 +388,7 @@ function App() {
                 </form>
                 {status !== "idle" && (
                   <div
-                    className={`mt-4 flex items-center gap-2 rounded-xl px-3.5 py-3 text-sm ${status === "success" ? "bg-emerald-400/10 text-emerald-300" : "bg-rose-400/10 text-rose-300"}`}
+                    className={`mt-4 flex items-start gap-2 rounded-xl px-3.5 py-3 text-sm leading-5 ${status === "success" ? "bg-emerald-400/10 text-emerald-300" : "bg-rose-400/10 text-rose-300"}`}
                   >
                     {status === "success" ? (
                       <Check size={17} />
@@ -401,31 +401,31 @@ function App() {
               </>
             )}
           </div>
-          <p className="mt-5 text-center text-base text-slate-200">
+          <p className="mt-5 px-2 text-center text-sm leading-5 text-slate-200 sm:text-base">
             Dica: mantenha a mesma senha e vá aprimorando-a a cada rodada.
           </p>
         </section>
-        <footer className="text-center text-sm text-slate-200">
+        <footer className="pt-3 text-center text-xs text-slate-200 sm:text-sm">
           Desafie sua lógica · Sem senhas reais
         </footer>
       </div>
       {!started && !result && (
-        <div className="absolute inset-0 z-10 grid place-items-center bg-slate-950/45 p-5 backdrop-blur-md">
-          <div className="w-full max-w-md rounded-3xl border border-white/15 bg-[#161a2d]/95 p-7 text-center shadow-2xl shadow-black/50 sm:p-9">
+        <div className="fixed inset-0 z-10 grid place-items-center overflow-y-auto bg-slate-950/45 p-4 backdrop-blur-md sm:p-5">
+          <div className="my-auto w-full max-w-md rounded-2xl border border-white/15 bg-[#161a2d]/95 p-5 text-center shadow-2xl shadow-black/50 sm:rounded-3xl sm:p-9">
             <div className="mx-auto mb-5 grid size-16 place-items-center rounded-2xl bg-violet-500 text-white shadow-lg shadow-violet-900/40">
               <KeyRound size={29} />
             </div>
             <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">
               PassQuest
             </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight">
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
               Escolha seu desafio
             </h2>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-400">
               Cada modalidade tem sua própria forma de contar o tempo e calcular
               a pontuação.
             </p>
-            <div className="mt-7 grid gap-3 text-left">
+            <div className="mt-6 grid gap-3 text-left sm:mt-7">
               <button
                 onClick={() => startGame("countdown")}
                 className="rounded-2xl border border-violet-400/30 bg-violet-500/15 p-4 transition hover:border-violet-300 hover:bg-violet-500/25 hover:cursor-pointer"
