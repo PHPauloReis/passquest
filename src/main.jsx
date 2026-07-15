@@ -35,11 +35,6 @@ const rules = [
   { text: 'A senha deve iniciar com uma letra.', test: (value) => /^[a-zA-Z]/.test(value) },
   { text: 'A senha deve terminar com um ponto de exclamação.', test: (value) => value.endsWith('!') },
   { text: 'A senha deve conter pelo menos 5 letras em sequência alfabética, como “abcde”.', test: (value) => hasAlphabeticalSequence(value) },
-  { text: 'A senha deve ter um emoji.', test: (value) => /\p{Extended_Pictographic}/u.test(value) },
-  { text: 'O emoji deve estar ao lado de um caractere especial.', test: (value) => {
-    const characters = [...value]
-    return characters.some((char, index) => /\p{Extended_Pictographic}/u.test(char) && (/[^a-zA-Z0-9\s]/.test(characters[index - 1] || '') || /[^a-zA-Z0-9\s]/.test(characters[index + 1] || '')))
-  } },
   { text: 'O número 2 deve estar ao lado do ponto de exclamação.', test: (value) => value.includes('2!') || value.includes('!2') },
   { text: 'A soma dos números completos da senha deve ser 23.', test: (value) => (value.match(/\d+/g) || []).reduce((sum, number) => sum + Number(number), 0) === 23 },
   { text: 'A primeira letra da senha deve ser maiúscula.', test: (value) => /^[A-Z]/.test(value) },
