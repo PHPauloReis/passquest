@@ -2,7 +2,7 @@
 
 ## Visão geral
 
-PassQuest é um jogo web de senha progressiva. A pessoa joga contra um cronômetro de 60 segundos e deve criar uma senha que satisfaça todas as regras. A interface e os textos estão em português do Brasil.
+PassQuest é um jogo web de senha progressiva. A pessoa escolhe uma modalidade e deve criar uma senha que satisfaça todas as regras. A interface e os textos estão em português do Brasil.
 
 ## Stack e estrutura
 
@@ -20,12 +20,17 @@ PassQuest é um jogo web de senha progressiva. A pessoa joga contra um cronômet
 - Ao alterar ou adicionar regras, confirme que a senha-exemplo pretendida pelo produto continua possível e que as regras não entram em conflito.
 - A regra de letras sequenciais significa uma sequência alfabética contínua, como `abcde`, e não somente letras agrupadas como `carro`.
 
-## Fluxo da partida
+## Fluxo da partida e pontuação
 
-- O jogo inicia com um modal de boas-vindas e fundo desfocado.
-- O cronômetro de 60 segundos só começa depois do clique em **Iniciar partida**.
-- Ao acabar o tempo, bloqueie a partida e ofereça reinício.
-- O botão de reinício deve voltar ao modal inicial e restaurar o tempo para 60 segundos.
+- O jogo inicia com um modal de boas-vindas e fundo desfocado, contendo as opções **Contagem regressiva** e **Tempo livre**.
+- Em **Contagem regressiva**, a partida dura 60 segundos. Ao término, ela encerra mesmo sem vitória.
+- Em **Tempo livre**, o cronômetro conta para cima e a partida só termina quando a senha estiver correta.
+- A pontuação-base é 100 pontos por regra satisfeita no fim da partida.
+- Em **Contagem regressiva**, uma vitória perde 5 pontos por segundo restante. Exemplo: terminar com 5 segundos restantes reduz 25 pontos.
+- Em **Tempo livre**, uma vitória perde 1 ponto por segundo que ultrapassar 30 segundos. A pontuação de uma vitória nesta modalidade nunca pode ser menor que 100 pontos.
+- A tela final deve mostrar tempo usado, regras satisfeitas e pontuação.
+- O botão de reinício deve voltar ao modal de escolha de modalidade e restaurar os estados do jogo.
+- O campo de senha não deve permitir ações de copiar ou colar, inclusive pelos atalhos de teclado.
 
 ## Comandos
 
@@ -48,3 +53,4 @@ Execute `npm run build` depois de mudanças para validar a aplicação.
 - Preserve a experiência visual escura com destaques em violeta.
 - Prefira textos curtos, claros e acolhedores em português.
 - Não trate a senha digitada como uma senha real nem a envie para serviços externos.
+- Nunca minifique arquivos editáveis do projeto, como componentes React, estilos, configurações e documentação. Preserve quebras de linha, indentação consistente e uma estrutura fácil de revisar.
