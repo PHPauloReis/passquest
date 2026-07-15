@@ -3,31 +3,46 @@ import { createRoot } from 'react-dom/client'
 import { Check, KeyRound, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, X } from 'lucide-react'
 import './styles.css'
 
+function hasAlphabeticalSequence(value, minimumLength = 5) {
+  let previousCode = null
+  let runLength = 1
+
+  for (const character of value.toLowerCase()) {
+    if (!/[a-z]/.test(character)) {
+      previousCode = null
+      runLength = 1
+      continue
+    }
+
+    const currentCode = character.charCodeAt(0)
+    runLength = currentCode === previousCode + 1 ? runLength + 1 : 1
+    previousCode = currentCode
+    if (runLength >= minimumLength) return true
+  }
+
+  return false
+}
+
 const rules = [
   { text: 'A senha deve ter pelo menos 8 caracteres.', test: (value) => value.length >= 8 },
   { text: 'A senha deve conter letras e números.', test: (value) => /[a-zA-Z]/.test(value) && /\d/.test(value) },
-  { text: 'A senha deve incluir uma letra maiúscula.', test: (value) => /[A-Z]/.test(value) },
-  { text: 'A senha deve conter um caractere especial.', test: (value) => /[^a-zA-Z0-9]/.test(value) },
-  { text: 'A senha precisa ter exatamente 12 caracteres.', test: (value) => value.length === 12 },
-  { text: 'A senha deve começar com a letra P.', test: (value) => value.startsWith('P') },
-  { text: 'A senha deve conter ao menos uma letra minúscula.', test: (value) => /[a-z]/.test(value) },
-  { text: 'A senha não pode conter espaços.', test: (value) => !/\s/.test(value) },
-  { text: 'A senha deve conter o número 7.', test: (value) => value.includes('7') },
+  { text: 'A senha deve ter pelo menos uma letra maiúscula.', test: (value) => /[A-Z]/.test(value) },
+  { text: 'A senha deve iniciar com uma letra maiúscula.', test: (value) => /^[A-Z]/.test(value) },
+  { text: 'A senha deve possuir a palavra “carro”.', test: (value) => value.toLowerCase().includes('carro') },
+  { text: 'A senha deve ter ao menos um número múltiplo de 7.', test: (value) => value.includes('7') || (value.match(/\d+/g) || []).some((number) => Number(number) % 7 === 0) },
+  { text: 'A senha deve conter o número 2.', test: (value) => value.includes('2') },
+  { text: 'A senha deve ter ao menos um caractere especial.', test: (value) => /[^a-zA-Z0-9\s]/.test(value) },
+  { text: 'A senha deve iniciar com uma letra.', test: (value) => /^[a-zA-Z]/.test(value) },
   { text: 'A senha deve terminar com um ponto de exclamação.', test: (value) => value.endsWith('!') },
-  { text: 'A senha deve conter a letra A.', test: (value) => /a/i.test(value) },
-  { text: 'A senha deve ter pelo menos dois números.', test: (value) => (value.match(/\d/g) || []).length >= 2 },
-  { text: 'A senha deve ter exatamente três letras maiúsculas.', test: (value) => (value.match(/[A-Z]/g) || []).length === 3 },
-  { text: 'A senha deve incluir o símbolo #.', test: (value) => value.includes('#') },
-  { text: 'A senha deve conter a palavra “word”.', test: (value) => value.toLowerCase().includes('word') },
-  { text: 'A soma dos números da senha deve ser 7.', test: (value) => [...value].filter((char) => /\d/.test(char)).reduce((sum, digit) => sum + Number(digit), 0) === 7 },
-  { text: 'A senha deve conter a letra X maiúscula.', test: (value) => value.includes('X') },
-  { text: 'A senha deve conter a letra Z maiúscula.', test: (value) => value.includes('Z') },
-  { text: 'A senha deve ter exatamente dois caracteres especiais.', test: (value) => (value.match(/[^a-zA-Z0-9]/g) || []).length === 2 },
-  { text: 'O quarto caractere da senha deve ser #.', test: (value) => value[3] === '#' },
-  { text: 'O nono caractere da senha deve ser X.', test: (value) => value[8] === 'X' },
-  { text: 'O penúltimo caractere da senha deve ser Z.', test: (value) => value[value.length - 2] === 'Z' },
-  { text: 'A senha deve ter o número 0 depois da letra X.', test: (value) => value.indexOf('X') < value.indexOf('0') },
-  { text: 'A sequência final precisa ser “X0Z!”.', test: (value) => value.endsWith('X0Z!') },
+  { text: 'A senha deve conter pelo menos 5 letras em sequência alfabética, como “abcde”.', test: (value) => hasAlphabeticalSequence(value) },
+  { text: 'A senha deve ter um emoji.', test: (value) => /\p{Extended_Pictographic}/u.test(value) },
+  { text: 'O emoji deve estar ao lado de um caractere especial.', test: (value) => {
+    const characters = [...value]
+    return characters.some((char, index) => /\p{Extended_Pictographic}/u.test(char) && (/[^a-zA-Z0-9\s]/.test(characters[index - 1] || '') || /[^a-zA-Z0-9\s]/.test(characters[index + 1] || '')))
+  } },
+  { text: 'O número 2 deve estar ao lado do ponto de exclamação.', test: (value) => value.includes('2!') || value.includes('!2') },
+  { text: 'A soma dos números completos da senha deve ser 23.', test: (value) => (value.match(/\d+/g) || []).reduce((sum, number) => sum + Number(number), 0) === 23 },
+  { text: 'A primeira letra da senha deve ser maiúscula.', test: (value) => /^[A-Z]/.test(value) },
 ]
 
 function App() {
@@ -45,13 +60,16 @@ function App() {
       setMessage('Digite uma senha para tentar.')
       return
     }
-    const failedRule = rules.slice(0, stage + 1).find((rule) => !rule.test(password))
+    // Todas as regras são verificadas em cada tentativa, mas mostramos somente
+    // a primeira que ainda precisa ser corrigida para não sobrecarregar o jogador.
+    const failedIndex = rules.findIndex((rule) => !rule.test(password))
+    const failedRule = failedIndex === -1 ? undefined : rules[failedIndex]
     if (!failedRule) {
-      const next = stage + 1
-      setStage(next)
+      setStage(rules.length)
       setStatus('success')
-      setMessage(next === rules.length ? 'Incrível. Você desvendou a senha final!' : 'Boa! Uma nova regra foi adicionada.')
+      setMessage('Incrível. Você desvendou a senha final!')
     } else {
+      setStage(failedIndex)
       setStatus('error')
       setMessage(`Ainda não: ${failedRule.text.replace('A senha deve', 'sua senha deve').replace('A senha precisa', 'sua senha precisa')}`)
     }
