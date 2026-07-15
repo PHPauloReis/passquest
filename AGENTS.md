@@ -23,10 +23,10 @@ PassQuest é um jogo web de senha progressiva. A pessoa escolhe uma modalidade e
 ## Fluxo da partida e pontuação
 
 - O jogo inicia com um modal de boas-vindas e fundo desfocado, contendo as opções **Contagem regressiva** e **Tempo livre**.
-- Em **Contagem regressiva**, a partida dura 60 segundos. Ao término, ela encerra mesmo sem vitória.
+- Em **Contagem regressiva**, a partida dura 90 segundos. Ao término, ela encerra mesmo sem vitória.
 - Em **Tempo livre**, o cronômetro conta para cima e a partida só termina quando a senha estiver correta.
 - A pontuação-base é 100 pontos por regra satisfeita no fim da partida.
-- Em **Contagem regressiva**, uma vitória perde 5 pontos por segundo restante. Exemplo: terminar com 5 segundos restantes reduz 25 pontos.
+- Em **Contagem regressiva**, uma vitória ganha 5 pontos por segundo restante. Exemplo: terminar com 5 segundos restantes adiciona 25 pontos.
 - Em **Tempo livre**, uma vitória perde 1 ponto por segundo que ultrapassar 30 segundos. A pontuação de uma vitória nesta modalidade nunca pode ser menor que 100 pontos.
 - A tela final deve mostrar tempo usado, regras satisfeitas e pontuação.
 - O botão de reinício deve voltar ao modal de escolha de modalidade e restaurar os estados do jogo.

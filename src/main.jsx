@@ -130,7 +130,7 @@ const rules = [
     test: (value) => value[1] !== "C",
   },
   {
-    text: "A senha deve conter a palavra “egg” (ovo em inglês).",
+    text: "A senha deve conter a palavra OVO em inglês.",
     test: (value) => value.toLowerCase().includes("egg"),
   },
   {
@@ -139,12 +139,14 @@ const rules = [
   },
 ];
 
+const COUNTDOWN_DURATION = 90;
+
 function App() {
   const [password, setPassword] = useState("");
   const [stage, setStage] = useState(0);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(COUNTDOWN_DURATION);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [started, setStarted] = useState(false);
   const [gameMode, setGameMode] = useState(null);
@@ -163,10 +165,10 @@ function App() {
 
   function finishGame(isWinner, value = password) {
     const satisfiedRules = rules.filter((rule) => rule.test(value)).length;
-    const timeUsed = countdownMode ? 60 - timeLeft : elapsedTime;
+    const timeUsed = countdownMode ? COUNTDOWN_DURATION - timeLeft : elapsedTime;
     let score = satisfiedRules * 100;
 
-    if (isWinner && countdownMode) score -= timeLeft * 5;
+    if (isWinner && countdownMode) score += timeLeft * 5;
     if (isWinner && !countdownMode)
       score = Math.max(100, score - Math.max(0, elapsedTime - 30));
 
@@ -215,7 +217,7 @@ function App() {
     setStage(0);
     setStatus("idle");
     setMessage("");
-    setTimeLeft(60);
+    setTimeLeft(COUNTDOWN_DURATION);
     setElapsedTime(0);
     setStarted(false);
     setGameMode(null);
@@ -225,7 +227,7 @@ function App() {
   function startGame(mode) {
     setGameMode(mode);
     setStarted(true);
-    setTimeLeft(60);
+    setTimeLeft(COUNTDOWN_DURATION);
     setElapsedTime(0);
     setResult(null);
   }
@@ -432,7 +434,7 @@ function App() {
                   <Timer size={18} /> Contagem regressiva
                 </span>
                 <span className="mt-1 block text-left text-xs leading-5 text-slate-400">
-                  60 segundos. Ao vencer, cada segundo restante reduz 5 pontos.
+                  Você tem 90 segundos para concluir o desafio. Seja rápido para ganhar mais pontos.
                 </span>
               </button>
               <button
@@ -443,8 +445,7 @@ function App() {
                   <Sparkles size={18} /> Tempo livre
                 </span>
                 <span className="mt-1 block text-left text-xs leading-5 text-slate-400">
-                  Sem limite. Após 30 segundos, cada segundo reduz 1 ponto;
-                  vitória vale no mínimo 100 pontos.
+                  Sem limite de tempo. Concentre-se em resolver o desafio no menor tempo possível para ganhar mais pontos.
                 </span>
               </button>
             </div>
