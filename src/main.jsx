@@ -50,7 +50,7 @@ function App() {
   const [stage, setStage] = useState(0)
   const [status, setStatus] = useState('idle')
   const [message, setMessage] = useState('')
-  const [timeLeft, setTimeLeft] = useState(30)
+  const [timeLeft, setTimeLeft] = useState(60)
   const [started, setStarted] = useState(false)
   const won = stage === rules.length
   const expired = timeLeft === 0
@@ -90,13 +90,13 @@ function App() {
     setStage(0)
     setStatus('idle')
     setMessage('')
-    setTimeLeft(30)
+    setTimeLeft(60)
     setStarted(false)
   }
 
   function startGame() {
     setStarted(true)
-    setTimeLeft(30)
+    setTimeLeft(60)
   }
 
   return (
@@ -128,7 +128,7 @@ function App() {
               <div className="py-4 text-center">
                 <div className={`mx-auto mb-5 grid size-20 place-items-center rounded-full ring-8 ${won ? 'bg-emerald-400/15 text-emerald-300 ring-emerald-400/5' : 'bg-rose-400/15 text-rose-300 ring-rose-400/5'}`}>{won ? <ShieldCheck size={38} /> : <Timer size={38} />}</div>
                 <h2 className="text-2xl font-bold">{won ? 'Cofre desbloqueado!' : 'Tempo esgotado!'}</h2>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-400">{won ? 'Sua senha passou por todas as camadas de segurança.' : 'Você tinha 30 segundos para descobrir a senha. Tente mais uma vez.'}</p>
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-400">{won ? 'Sua senha passou por todas as camadas de segurança.' : 'Você tinha 60 segundos para descobrir a senha. Tente mais uma vez.'}</p>
                 <button onClick={restart} className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-violet-100"><RefreshCw size={16} /> Jogar novamente</button>
               </div>
             ) : (
@@ -154,7 +154,7 @@ function App() {
             <div className="mx-auto mb-5 grid size-16 place-items-center rounded-2xl bg-violet-500 text-white shadow-lg shadow-violet-900/40"><KeyRound size={29} /></div>
             <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">PassQuest</p>
             <h2 className="mt-2 text-3xl font-black tracking-tight">Pronto para o desafio?</h2>
-            <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-400">Você terá <span className="font-bold text-white">30 segundos</span> para montar uma senha que passe por todas as regras.</p>
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-400">Você terá <span className="font-bold text-white">60 segundos</span> para montar uma senha que passe por todas as regras.</p>
             <button onClick={startGame} className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-950/50 transition hover:bg-violet-400 active:scale-[.98]"><Sparkles size={17} /> Iniciar partida</button>
           </div>
         </div>
